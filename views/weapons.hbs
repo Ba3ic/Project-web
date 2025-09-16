@@ -1,0 +1,13 @@
+<h2>All Weapons</h2>
+
+<ul>
+  {{#each weapons}}
+    <li>
+      <strong>{{name}}</strong> ({{class}}) - Damage: {{damage}} <br>
+      <em>{{description}}</em><br>
+      {{#if image_url}}
+        <img src="{{image_url}}" alt="{{name}}" width="150">
+      {{/if}}
+    </li>
+  {{/each}}
+</ul>
