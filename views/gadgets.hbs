@@ -1,13 +1,9 @@
 <h2>{{title}}</h2>
-
-<p>
-  <a href="/add/weapon" class="btn">➕ Add New Weapon</a>
-</p>
-
+<a href="/add/gadget">➕ Add New Gadget</a>
 <ul>
-  {{#each weapons}}
+  {{#each gadgets}}
     <li>
-      <strong>{{name}}</strong> ({{class}}) - Damage: {{damage}}
+      <strong>{{name}}</strong> ({{class}})
       <br>
       {{description}}
       {{#if image_url}}

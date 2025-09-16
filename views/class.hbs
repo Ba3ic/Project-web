@@ -1,0 +1,36 @@
+<h2>{{className}} Class</h2>
+
+<h3>Weapons</h3>
+<p>
+  <a href="/add/weapon" class="btn">➕ Add New Weapon</a>
+</p>
+<ul>
+  {{#each weapons}}
+    <li><strong>{{name}}</strong> - {{description}}</li>
+  {{/each}}
+  {{#unless weapons}}
+    <li>No weapons for this class.</li>
+  {{/unless}}
+</ul>
+
+<h3>Gadgets</h3>
+<p><a href="/add/gadget">➕ Add New Gadget</a></p>
+<ul>
+  {{#each gadgets}}
+    <li><strong>{{name}}</strong> - {{description}}</li>
+  {{/each}}
+  {{#unless gadgets}}
+    <li>No gadgets for this class.</li>
+  {{/unless}}
+</ul>
+
+<h3>Specializations</h3>
+<p><a href="/add/specialization">➕ Add New Specialization</a></p>
+<ul>
+  {{#each specializations}}
+    <li><strong>{{name}}</strong> - {{description}}</li>
+  {{/each}}
+  {{#unless specializations}}
+    <li>No specializations for this class.</li>
+  {{/unless}}
+</ul>

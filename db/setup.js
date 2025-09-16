@@ -13,6 +13,39 @@ db.serialize(() => {
       image_url TEXT
     )
   `);
+
+    // Gadgets
+  db.run(`
+    CREATE TABLE IF NOT EXISTS gadgets (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      class TEXT NOT NULL, -- Light, Medium, Heavy
+      description TEXT,
+      image_url TEXT
+    )
+  `);
+
+  // Specializations
+  db.run(`
+    CREATE TABLE IF NOT EXISTS specializations (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      class TEXT NOT NULL, -- Light, Medium, Heavy
+      description TEXT,
+      image_url TEXT
+    )
+  `);
+
+  // Maps
+  db.run(`
+    CREATE TABLE IF NOT EXISTS maps (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      location TEXT,
+      description TEXT,
+      image_url TEXT
+    )
+  `);
 });
 
 console.log("✅ Database setup complete.");
