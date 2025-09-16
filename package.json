@@ -1,0 +1,27 @@
+{
+  "name": "project-web",
+  "version": "1.0.0",
+  "description": "Lucas and Daniel group project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ba3ic/Project-web.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ba3ic/Project-web/issues"
+  },
+  "homepage": "https://github.com/Ba3ic/Project-web#readme",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "express": "^5.1.0",
+    "express-handlebars": "^8.0.3",
+    "express-session": "^1.18.2",
+    "sqlite3": "^5.1.7"
+  }
+}
