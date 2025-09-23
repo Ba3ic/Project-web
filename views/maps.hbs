@@ -1,15 +1,28 @@
 <h2>{{title}}</h2>
 
+<p><a href="/add/map">➕ Add New Map</a></p>
+
 <ul>
   {{#each maps}}
     <li>
       <strong>{{name}}</strong>
-      {{#if location}} - Location: {{location}}{{/if}}
+      {{#if location}} ({{location}}){{/if}}
       <br>
       {{description}}
       {{#if image_url}}
         <br><img src="{{image_url}}" alt="{{name}}" width="200">
       {{/if}}
+
+      <!-- Edit & Delete -->
+      <div style="margin-top:5px;">
+        <a href="/maps/{{id}}/edit">✏️ Edit</a>
+        <form action="/maps/{{id}}/delete" method="POST" style="display:inline;">
+          <button type="submit" onclick="return confirm('Delete this map?')">🗑 Delete</button>
+        </form>
+      </div>
     </li>
   {{/each}}
+  {{#unless maps}}
+    <li>No maps found.</li>
+  {{/unless}}
 </ul>

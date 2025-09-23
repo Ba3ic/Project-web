@@ -17,5 +17,13 @@ db.serialize(() => {
   stmt.finalize();
 });
 
+const bcrypt = require("bcrypt");
+const passwordHash = bcrypt.hashSync("Security!", 10);
+
+db.run("DELETE FROM users");
+
+db.run("INSERT INTO users (username, password) VALUES (?, ?)", ["admin", passwordHash]);
+
+
 db.close();
 console.log("✅ Weapons seeded into database.");

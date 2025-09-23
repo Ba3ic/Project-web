@@ -1,12 +1,22 @@
 <h2>{{className}} Class</h2>
 
 <h3>Weapons</h3>
-<p>
-  <a href="/add/weapon" class="btn">➕ Add New Weapon</a>
-</p>
+<p><a href="/add/weapon">➕ Add New Weapon</a></p>
 <ul>
   {{#each weapons}}
-    <li><strong>{{name}}</strong> - {{description}}</li>
+    <li>
+      <strong>{{name}}</strong> - {{description}}
+      {{#if image_url}}
+        <br><img src="{{image_url}}" alt="{{name}}" width="150">
+      {{/if}}
+
+      <div style="margin-top:5px;">
+        <a href="/weapons/{{id}}/edit">✏️ Edit</a>
+        <form action="/weapons/{{id}}/delete" method="POST" style="display:inline;">
+          <button type="submit" onclick="return confirm('Delete this weapon?')">🗑 Delete</button>
+        </form>
+      </div>
+    </li>
   {{/each}}
   {{#unless weapons}}
     <li>No weapons for this class.</li>
@@ -17,7 +27,19 @@
 <p><a href="/add/gadget">➕ Add New Gadget</a></p>
 <ul>
   {{#each gadgets}}
-    <li><strong>{{name}}</strong> - {{description}}</li>
+    <li>
+      <strong>{{name}}</strong> - {{description}}
+      {{#if image_url}}
+        <br><img src="{{image_url}}" alt="{{name}}" width="150">
+      {{/if}}
+
+      <div style="margin-top:5px;">
+        <a href="/gadgets/{{id}}/edit">✏️ Edit</a>
+        <form action="/gadgets/{{id}}/delete" method="POST" style="display:inline;">
+          <button type="submit" onclick="return confirm('Delete this gadget?')">🗑 Delete</button>
+        </form>
+      </div>
+    </li>
   {{/each}}
   {{#unless gadgets}}
     <li>No gadgets for this class.</li>
@@ -28,7 +50,19 @@
 <p><a href="/add/specialization">➕ Add New Specialization</a></p>
 <ul>
   {{#each specializations}}
-    <li><strong>{{name}}</strong> - {{description}}</li>
+    <li>
+      <strong>{{name}}</strong> - {{description}}
+      {{#if image_url}}
+        <br><img src="{{image_url}}" alt="{{name}}" width="150">
+      {{/if}}
+
+      <div style="margin-top:5px;">
+        <a href="/specializations/{{id}}/edit">✏️ Edit</a>
+        <form action="/specializations/{{id}}/delete" method="POST" style="display:inline;">
+          <button type="submit" onclick="return confirm('Delete this specialization?')">🗑 Delete</button>
+        </form>
+      </div>
+    </li>
   {{/each}}
   {{#unless specializations}}
     <li>No specializations for this class.</li>

@@ -1,0 +1,34 @@
+<h2>Edit {{type}}</h2>
+
+<form action="/{{type}}s/{{item.id}}/edit" method="POST">
+  <label>Name:</label><br>
+  <input type="text" name="name" value="{{item.name}}" required><br><br>
+
+  <label>Description:</label><br>
+  <textarea name="description" rows="4" cols="40">{{item.description}}</textarea><br><br>
+
+  <label>Image URL:</label><br>
+  <input type="text" name="image_url" value="{{item.image_url}}"><br><br>
+
+  {{#if showClass}}
+    <label>Class:</label><br>
+    <select name="class" required>
+      <option value="Light" {{#if (eq item.class "Light")}}selected{{/if}}>Light</option>
+      <option value="Medium" {{#if (eq item.class "Medium")}}selected{{/if}}>Medium</option>
+      <option value="Heavy" {{#if (eq item.class "Heavy")}}selected{{/if}}>Heavy</option>
+    </select><br><br>
+  {{/if}}
+
+  {{#if item.damage}}
+    <label>Damage:</label><br>
+    <input type="number" name="damage" value="{{item.damage}}"><br><br>
+  {{/if}}
+
+  <button type="submit">Save</button>
+</form>
+
+<form action="/{{type}}s/{{item.id}}/delete" method="POST" style="margin-top:10px;">
+  <button type="submit" onclick="return confirm('Delete this {{type}}?')">Delete</button>
+</form>
+
+<p><a href="/{{type}}s">⬅ Back to {{type}} list</a></p>

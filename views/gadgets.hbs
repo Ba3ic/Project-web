@@ -1,5 +1,7 @@
 <h2>{{title}}</h2>
-<a href="/add/gadget">➕ Add New Gadget</a>
+
+<p><a href="/add/gadget">➕ Add New Gadget</a></p>
+
 <ul>
   {{#each gadgets}}
     <li>
@@ -9,6 +11,14 @@
       {{#if image_url}}
         <br><img src="{{image_url}}" alt="{{name}}" width="150">
       {{/if}}
+
+      <!-- Edit & Delete -->
+      <div style="margin-top:5px;">
+        <a href="/gadgets/{{id}}/edit">✏️ Edit</a>
+        <form action="/gadgets/{{id}}/delete" method="POST" style="display:inline;">
+          <button type="submit" onclick="return confirm('Delete this gadget?')">🗑 Delete</button>
+        </form>
+      </div>
     </li>
   {{/each}}
 </ul>

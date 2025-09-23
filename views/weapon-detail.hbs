@@ -1,0 +1,10 @@
+<h2>{{weapon.name}}</h2>
+<p><strong>Class:</strong> {{weapon.class}}</p>
+<p><strong>Damage:</strong> {{weapon.damage}}</p>
+<p>{{weapon.description}}</p>
+
+{{#if weapon.image_url}}
+  <img src="{{weapon.image_url}}" alt="{{weapon.name}}" width="300">
+{{/if}}
+
+<p><a href="/weapons">⬅ Back to Weapons</a></p>
