@@ -1,6 +1,11 @@
 <section>
   <h2>Welcome</h2>
   <p>This school project lists all weapons from THE FINALS.</p>
+  {{#if user}}
+    <p class="status-message">Du är inloggad som {{user.username}}.</p>
+  {{else}}
+    <p class="status-message">Logga in för att hantera innehållet.</p>
+  {{/if}}
   <p>Select a class to explore available weapons:</p>
   <ul>
     <li><a href="/class/Light" class="class-link">Light</a>
