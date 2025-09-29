@@ -15,7 +15,12 @@
       <a href="/gadgets">Gadgets</a> |
       <a href="/specializations">Specializations</a> |
       <a href="/maps">Maps</a> |
-      <a href="/login">Admin</a>
+      {{#if user}}
+        <span>Inloggad som {{user.username}}</span> |
+        <a href="/logout">Logga ut</a>
+      {{else}}
+        <a href="/login">Logga in</a>
+      {{/if}}
     </nav>
   </header>
 

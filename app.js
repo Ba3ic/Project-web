@@ -29,6 +29,11 @@ app.use(session({
   saveUninitialized: true
 }));
 
+app.use((req, res, next) => {
+  res.locals.user = req.session.user;
+  next();
+});
+
 // ✅ Koppla databasen
 const db = new sqlite3.Database(path.join(__dirname, "db", "weapons.db"));
 
