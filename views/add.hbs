@@ -1,4 +1,4 @@
-<h2>Add New {{type}}</h2>
+<h2>{{title}}</h2>
 
 <form action="/add/{{type}}" method="POST">
   <label>Name:</label><br>
@@ -8,7 +8,7 @@
   <textarea name="description" rows="4" cols="40"></textarea><br><br>
 
   <label>Image URL:</label><br>
-  <input type="text" name="image_url" placeholder="/img/example.png"><br><br>
+  <input type="text" name="image_url"><br><br>
 
   {{#if showClass}}
     <label>Class:</label><br>
@@ -19,5 +19,10 @@
     </select><br><br>
   {{/if}}
 
-  <button type="submit">Add {{type}}</button>
+  {{#if (eq type "weapon")}}
+    <label>Damage:</label><br>
+    <input type="number" name="damage" required><br><br>
+  {{/if}}
+
+  <button type="submit">Save</button>
 </form>

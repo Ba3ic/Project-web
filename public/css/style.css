@@ -8,6 +8,31 @@ body {
   background-size: cover;
   background-position: center 0px;
   background-repeat: no-repeat;
+  
+}
+/* ===== Navigation (Flexbox) ===== */
+nav {
+  display: flex;
+  justify-content: center;   /* centrerar hela nav */
+  align-items: center;       /* vertikal centrering */
+  gap: 15px;                 /* mellanrum istället för | */
+  flex-wrap: wrap;           /* radbrytning om skärmen är smal */
+}
+
+nav a, nav span {
+  color: #eee;
+  text-decoration: none;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+
+
+header {
+  text-align: center;
+  margin-bottom: 30px;
 }
 
 h1 {
@@ -21,6 +46,7 @@ h1 {
   margin-top: 10px;
   margin-bottom: 30px;
   box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  ;
 }
 
 h2, h3 {

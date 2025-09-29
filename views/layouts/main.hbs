@@ -16,10 +16,11 @@
       <a href="/specializations">Specializations</a> |
       <a href="/maps">Maps</a> |
       {{#if user}}
-        <span>Inloggad som {{user.username}}</span> |
         <a href="/logout">Logga ut</a>
+        <span>| Logged in as {{user.username}}</span> |
       {{else}}
         <a href="/login">Logga in</a>
+        <span>| Not logged in</span> |
       {{/if}}
     </nav>
   </header>

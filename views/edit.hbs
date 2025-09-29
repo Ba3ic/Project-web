@@ -19,9 +19,9 @@
     </select><br><br>
   {{/if}}
 
-  {{#if item.damage}}
+  {{#if (eq type "weapon")}}
     <label>Damage:</label><br>
-    <input type="number" name="damage" value="{{item.damage}}"><br><br>
+    <input type="number" name="damage" value="{{item.damage}}" required><br><br>
   {{/if}}
 
   <button type="submit">Save</button>
