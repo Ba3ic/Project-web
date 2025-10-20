@@ -1,0 +1,17 @@
+<h2>{{title}}</h2>
+
+<p><a href="/add/user">➕ Add New User</a></p>
+
+<ul>
+  {{#each users}}
+    <li>
+      <strong>{{username}}</strong>
+      <div style="margin-top:5px;">
+        <a href="/users/{{id}}/edit">✏️ Edit</a>
+        <form action="/users/{{id}}/delete" method="POST" style="display:inline;">
+          <button type="submit" onclick="return confirm('Delete this user?')">🗑 Delete</button>
+        </form>
+      </div>
+    </li>
+  {{/each}}
+</ul>
