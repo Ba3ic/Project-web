@@ -22,3 +22,10 @@
     </li>
   {{/each}}
 </ul>
+{{#if totalPages}}
+  <div class="pagination">
+    {{#each (range 1 totalPages)}}
+      <a href="/weapons?page={{this}}" {{#if (eq ../page this)}}style="background:#555;"{{/if}}>{{this}}</a>
+    {{/each}}
+  </div>
+{{/if}}

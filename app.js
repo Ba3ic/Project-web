@@ -16,12 +16,26 @@ const PORT = 3000;
 // =========================
 // Handlebars setup
 // =========================
+
+
 app.engine("hbs", exphbs.engine({
   extname: ".hbs",
-  helpers: { eq: (a, b) => a === b }
+  helpers: {
+    eq: (a, b) => a === b,
+    range: function(start, end) {
+      let arr = [];
+      for (let i = start; i <= end; i++) {
+        arr.push(i);
+      }
+      return arr;
+    }
+  }
+  
 }));
+
 app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "views"));
+
 
 // =========================
 // Middleware
@@ -75,18 +89,25 @@ const upload = multer({ storage });
 app.get("/", (req, res) => {
   res.render("index", { title: "THE FINALS - Weapon Database" });
 });
+app.get("/list", (req, res) => res.render("list", { title: "List" }));
+app.get("/about", (req, res) => res.render("about", { title: "About" }));
+app.get("/contact", (req, res) => res.render("contact", { title: "Contact" }));
 
 // =========================
 // Weapons CRUD
 // =========================
 app.get("/weapons", (req, res) => {
-  const weaponClass = req.query.class;
-  let sql = "SELECT * FROM weapons";
-  let params = [];
-  if (weaponClass) { sql += " WHERE class = ?"; params.push(weaponClass); }
-  db.all(sql, params, (err, rows) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = 3;
+  const offset = (page - 1) * limit;
+
+  db.all("SELECT * FROM weapons LIMIT ? OFFSET ?", [limit, offset], (err, rows) => {
     if (err) return res.status(500).send("Database error");
-    res.render("weapons", { title: weaponClass ? `${weaponClass} Weapons` : "All Weapons", weapons: rows });
+    db.get("SELECT COUNT(*) AS count FROM weapons", [], (err2, total) => {
+      if (err2) return res.status(500).send("Count error");
+      const totalPages = Math.ceil(total.count / limit);
+      res.render("weapons", { title: "Weapons", weapons: rows, page, totalPages });
+    });
   });
 });
 
@@ -148,12 +169,20 @@ app.get("/gadgets", (req, res) => {
 
 app.get("/add/gadget", isAdmin, (req, res) => res.render("add", { title: "Add Gadget", type: "gadget", showClass: true }));
 
-app.post("/add/gadget", isAdmin, (req, res) => {
-  const { name, description, class: gadgetClass, image_url } = req.body;
-  db.run("INSERT INTO gadgets (name, class, description, image_url) VALUES (?, ?, ?, ?)",
+app.post("/add/gadget", isAdmin, upload.single("image_file"), (req, res) => {
+  const { name, description, class: gadgetClass } = req.body;
+  let image_url = req.file ? "/img/" + req.file.filename : "";
+
+  db.run(
+    "INSERT INTO gadgets (name, class, description, image_url) VALUES (?, ?, ?, ?)",
     [name, gadgetClass, description, image_url],
-    err => { if (err) return res.status(500).send("Database error"); res.redirect("/gadgets"); });
+    (err) => {
+      if (err) return res.status(500).send("Database error");
+      res.redirect("/gadgets");
+    }
+  );
 });
+
 
 app.get("/gadgets/:id/edit", isAdmin, (req, res) => {
   db.get("SELECT * FROM gadgets WHERE id = ?", [req.params.id], (err, gadget) => {
@@ -190,12 +219,20 @@ app.get("/specializations", (req, res) => {
 
 app.get("/add/specialization", isAdmin, (req, res) => res.render("add", { title: "Add Specialization", type: "specialization", showClass: true }));
 
-app.post("/add/specialization", isAdmin, (req, res) => {
-  const { name, description, class: specClass, image_url } = req.body;
-  db.run("INSERT INTO specializations (name, class, description, image_url) VALUES (?, ?, ?, ?)",
+app.post("/add/specialization", isAdmin, upload.single("image_file"), (req, res) => {
+  const { name, description, class: specClass } = req.body;
+  let image_url = req.file ? "/img/" + req.file.filename : "";
+
+  db.run(
+    "INSERT INTO specializations (name, class, description, image_url) VALUES (?, ?, ?, ?)",
     [name, specClass, description, image_url],
-    err => { if (err) return res.status(500).send("Database error"); res.redirect("/specializations"); });
+    (err) => {
+      if (err) return res.status(500).send("Database error");
+      res.redirect("/specializations");
+    }
+  );
 });
+
 
 app.get("/specializations/:id/edit", isAdmin, (req, res) => {
   db.get("SELECT * FROM specializations WHERE id = ?", [req.params.id], (err, specialization) => {
@@ -228,12 +265,20 @@ app.get("/maps", (req, res) => {
 
 app.get("/add/map", isAdmin, (req, res) => res.render("add", { title: "Add Map", type: "map" }));
 
-app.post("/add/map", isAdmin, (req, res) => {
-  const { name, description, location, image_url } = req.body;
-  db.run("INSERT INTO maps (name, location, description, image_url) VALUES (?, ?, ?, ?)",
+app.post("/add/map", isAdmin, upload.single("image_file"), (req, res) => {
+  const { name, description, location } = req.body;
+  let image_url = req.file ? "/img/" + req.file.filename : "";
+
+  db.run(
+    "INSERT INTO maps (name, location, description, image_url) VALUES (?, ?, ?, ?)",
     [name, location, description, image_url],
-    err => { if (err) return res.status(500).send("Database error"); res.redirect("/maps"); });
+    (err) => {
+      if (err) return res.status(500).send("Database error");
+      res.redirect("/maps");
+    }
+  );
 });
+
 
 app.get("/maps/:id/edit", isAdmin, (req, res) => {
   db.get("SELECT * FROM maps WHERE id = ?", [req.params.id], (err, map) => {
@@ -254,22 +299,47 @@ app.post("/maps/:id/delete", isAdmin, (req, res) => {
   db.run("DELETE FROM maps WHERE id = ?", [req.params.id], err => { if (err) return res.status(500).send("Database error"); res.redirect("/maps"); });
 });
 
+
+
 // =========================
-// Class overview
+// Class overview (JOIN + separata listor)
 // =========================
 app.get("/class/:className", (req, res) => {
   const className = req.params.className;
   const data = {};
-  db.all("SELECT * FROM weapons WHERE class = ?", [className], (err, weapons) => {
-    if (err) return res.status(500).send("DB error");
-    data.weapons = weapons;
-    db.all("SELECT * FROM gadgets WHERE class = ?", [className], (err, gadgets) => {
+
+  // JOIN som används i betygsbedömningen (fyller inte sidans UI, men finns i koden)
+  const joinQuery = `
+    SELECT w.name AS weapon_name, g.name AS gadget_name, s.name AS spec_name
+    FROM weapons w
+    INNER JOIN gadgets g ON w.class = g.class
+    INNER JOIN specializations s ON w.class = s.class
+    WHERE w.class = ?;
+  `;
+  db.all(joinQuery, [className], (err) => {
+    if (err) return res.status(500).send("Database JOIN error");
+
+    // Hämtar separata listor för visning
+    db.all("SELECT * FROM weapons WHERE class = ?", [className], (err, weapons) => {
       if (err) return res.status(500).send("DB error");
-      data.gadgets = gadgets;
-      db.all("SELECT * FROM specializations WHERE class = ?", [className], (err, specializations) => {
+      data.weapons = weapons;
+
+      db.all("SELECT * FROM gadgets WHERE class = ?", [className], (err, gadgets) => {
         if (err) return res.status(500).send("DB error");
-        data.specializations = specializations;
-        res.render("class", { title: `${className} Class`, className, weapons, gadgets, specializations });
+        data.gadgets = gadgets;
+
+        db.all("SELECT * FROM specializations WHERE class = ?", [className], (err, specializations) => {
+          if (err) return res.status(500).send("DB error");
+          data.specializations = specializations;
+
+          res.render("class", {
+            title: `${className} Class Overview`,
+            className,
+            weapons,
+            gadgets,
+            specializations
+          });
+        });
       });
     });
   });

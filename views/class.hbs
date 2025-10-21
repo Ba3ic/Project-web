@@ -5,15 +5,10 @@
   <ul>
     {{#each weapons}}
       <li>
-        <strong>{{name}}</strong> - Damage: {{damage}}<br>
+        <strong>{{name}}</strong> – Damage: {{damage}}<br>
         {{description}}<br>
         {{#if image_url}}
           <img src="{{image_url}}" alt="{{name}}" width="150">
-        {{else}}
-          <em>No image</em>
-        {{/if}}
-        {{#if specialization_name}}
-          <p><em>Linked Specialization:</em> {{specialization_name}}</p>
         {{/if}}
       </li>
     {{/each}}
@@ -31,8 +26,6 @@
         {{description}}<br>
         {{#if image_url}}
           <img src="{{image_url}}" alt="{{name}}" width="120">
-        {{else}}
-          <em>No image</em>
         {{/if}}
       </li>
     {{/each}}
@@ -50,8 +43,6 @@
         {{description}}<br>
         {{#if image_url}}
           <img src="{{image_url}}" alt="{{name}}" width="120">
-        {{else}}
-          <em>No image</em>
         {{/if}}
       </li>
     {{/each}}

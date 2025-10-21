@@ -9,23 +9,22 @@
   <header>
     <h1>THE FINALS - Weapon Database</h1>
 
-    <nav>
-      <a href="/">Home</a> |
-      <a href="/weapons">Weapons</a> |
-      <a href="/gadgets">Gadgets</a> |
-      <a href="/specializations">Specializations</a> |
-      <a href="/maps">Maps</a> |
-      {{#if user}}
-        {{#if (eq user.username "admin")}}
-          <a href="/users">Users</a> |
+      <nav>
+        <a href="/">Home</a>
+        <a href="/list">List</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+        {{#if user}}
+          {{#if (eq user.username "admin")}}
+            <a href="/users">Users</a>
+          {{/if}}
+          <a href="/logout">Logout</a>
+          <span>Logged in as {{user.username}}</span>
+        {{else}}
+          <a href="/login">Login</a>
         {{/if}}
-        <a href="/logout">Logga ut</a>
-        <span>| Logged in as {{user.username}}</span>
-      {{else}}
-        <a href="/login">Logga in</a>
-        <span>| Not logged in</span>
-      {{/if}}
-    </nav>
+      </nav>
+
   </header>
 
   <main>

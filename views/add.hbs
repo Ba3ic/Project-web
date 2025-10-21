@@ -1,12 +1,19 @@
 <h2>{{title}}</h2>
 
+{{!-- Use enctype only when needed --}}
+{{#if (eq type "user")}}
 <form action="/add/{{type}}" method="POST">
+{{else}}
+<form action="/add/{{type}}" method="POST" enctype="multipart/form-data">
+{{/if}}
+
   {{#if (eq type "user")}}
     <label>Username:</label><br>
     <input type="text" name="username" required><br><br>
 
     <label>Password:</label><br>
     <input type="password" name="password" required><br><br>
+
   {{else}}
     <label>Name:</label><br>
     <input type="text" name="name" required><br><br>
@@ -14,8 +21,9 @@
     <label>Description:</label><br>
     <textarea name="description" rows="4" cols="40"></textarea><br><br>
 
-    <label>Image URL:</label><br>
-    <input type="text" name="image_url"><br><br>
+    {{!-- Image upload for weapons, gadgets, maps, specializations --}}
+    <label>Upload Image:</label><br>
+    <input type="file" name="image_file" accept=".png,.jpg,.jpeg"><br><br>
 
     {{#if showClass}}
       <label>Class:</label><br>
